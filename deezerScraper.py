@@ -10,7 +10,7 @@ import time
 import lxml
 import re
 import math
-f=open("./deezerScraper/albumUrls",'w')
+f=open("./deezerScraper/albumUrls.txt",'w')
 
 print("-"*50)
 print("Input artist url")
@@ -65,9 +65,12 @@ try:
 
 except KeyboardInterrupt:
     print("Keyboard Intterupt, Exiting")
+    f.close()
+    time.sleep(3)
     sys.exit(0)
 
 except NoSuchElementException:
     print("Thats all, exiting")
     f.close()
+    time.sleep(3)
     sys.exit(0)
