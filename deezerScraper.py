@@ -10,11 +10,13 @@ import time
 import lxml
 import re
 import math
+f=open("./deezerScraper/albumUrls",'w')
 
 print("-"*50)
 print("Input artist url")
 print("Example: https://www.deezer.com/en/artist/10159994")
 print("-"*50)
+
 
 path = r'./deezerScraper/chromedriver'
 options = webdriver.ChromeOptions()
@@ -27,14 +29,11 @@ li=[]
 
 try:
 
-    #url=str(input("Artist url: "))
-    url="https://www.deezer.com/en/artist/10159994"
+    url=str(input("Artist url: "))
+    
     
     driver.get(url)
     
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36',}
-    req = Request(url, headers=headers)
-    page = urlopen(req).read()
     time.sleep(4)
     #Scroll to bottom of page to get all js loaded
     lenOfPage = driver.execute_script("window.scrollTo(0, document.body.scrollHeight);var lenOfPage=document.body.scrollHeight;return lenOfPage;")
@@ -46,7 +45,6 @@ try:
             if lastCount==lenOfPage:
                 match=True
     
-    soup=BeautifulSoup(page,'html.parser')
     
     ul=driver.find_element_by_xpath('//*[@id="page_naboo_artist"]/div[2]/div/div[2]/div/ul[1]')
     
@@ -58,9 +56,10 @@ try:
 
     
         print(albumIds.text)
-        print(albumIds.get_attribute('href'))
+        hrefs=albumIds.get_attribute('href')
+        print(hrefs)
+        f.write(hrefs+"\n" )
 
-    
 
 
 
@@ -70,4 +69,5 @@ except KeyboardInterrupt:
 
 except NoSuchElementException:
     print("Thats all, exiting")
+    f.close()
     sys.exit(0)
