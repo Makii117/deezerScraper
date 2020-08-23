@@ -5,6 +5,7 @@ import urllib.request
 import json
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import NoSuchElementException
 import time
 import lxml
 import re
@@ -15,7 +16,7 @@ print("Input artist url")
 print("Example: https://www.deezer.com/en/artist/10159994")
 print("-"*50)
 
-path = r'C:\\Users\\BIOSs\\Desktop\\chromedriver'
+path = r'./deezerScraper/chromedriver'
 options = webdriver.ChromeOptions()
 options.add_argument('--ignore-certificate-errors')
 options.add_argument('--incognito')
@@ -50,12 +51,14 @@ try:
     ul=driver.find_element_by_xpath('//*[@id="page_naboo_artist"]/div[2]/div/div[2]/div/ul[1]')
     
     
-    print(ul.text)
-    for i in range(1,len(li)):
-        albumIds=driver.find_element_by_xpath('//*[@id="page_naboo_artist"]/div[2]/div/div[2]/div/ul[1]/li[%s]/div/div[1]/a'%i)
+    #print(ul.text)
+    for i in range(1,len(ul.find_elements_by_tag_name('li'))):
+        
+        albumIds=driver.find_element_by_xpath('//*[@id="page_naboo_artist"]/div[2]/div/div[2]/div/ul[1]/li[{}]/div/div[1]/a'.format(i))
 
     
         print(albumIds.text)
+        print(albumIds.get_attribute('href'))
 
     
 
@@ -63,4 +66,8 @@ try:
 
 except KeyboardInterrupt:
     print("Keyboard Intterupt, Exiting")
-    sys.exit()
+    sys.exit(0)
+
+except NoSuchElementException:
+    print("Thats all, exiting")
+    sys.exit(0)
