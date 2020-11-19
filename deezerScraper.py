@@ -18,7 +18,7 @@ print("Example: https://www.deezer.com/en/artist/10159994")
 print("-"*50)
 
 
-path = r'./deezerScraper/chromedriver'
+path = r'./chromedriver'
 options = webdriver.ChromeOptions()
 options.add_argument('--ignore-certificate-errors')
 options.add_argument('--incognito')
